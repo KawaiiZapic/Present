@@ -1,6 +1,6 @@
-# Present
+# :gift:Present
 
-Present is present by Zapic.  
+Present is presented by Zapic:gift_heart:.  
 一个简洁的个人主页,支持显示博客文章/随机背景图片/随机语句.  
 [即时预览](https://kawaiizapic.github.io/Present/)
 ![preview.png](https://i.loli.net/2020/11/15/ukl6jRxNm8O7bD2.png)
