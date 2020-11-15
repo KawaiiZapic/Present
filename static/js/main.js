@@ -20,7 +20,16 @@ function qSlt(selector) {
 function qSltAll(selector) {
     return document.querySelectorAll(selector);
 }
-
+function dateParser (str){
+    var reg = new RegExp("([0-9]{2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec){1} ([0-9]{4})");
+    reg = reg.exec(str);
+    if(!reg){return false;}
+    var monthMap = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var day = reg[1];
+    var month = monthMap.lastIndexOf(reg[2])+1;
+    var year = reg[3];
+    return year+"-"+month+"-"+day;
+}
 function setArtTip(content) {
     qSlt(".article-content").classList.add("empty");
     qSlt(".article-content").innerHTML = content;
@@ -34,27 +43,49 @@ function randomSet(set) {
         set[i] = p;
     }
 }
+function articleOutput(data){
+    for (var i = 0; i < data.length; i++) {
+        qSlt(".article-content").innerHTML += '<p class="article-item"><a target="_blank" class="article-title" href="' + data[i].link + '">' + data[i].title + '</a><span class="article-time">' + data[i].timestamp + '</span></p>';
+    }
+}
 
 var feed = new XMLHttpRequest();
 feed.open("GET", feedPath, true);
 feed.addEventListener("load", function () {
     qSlt(".article-container").classList.add("loaded");
-    try {
-        var data = JSON.parse(feed.responseText);
-    } catch (e) {
-    }
-    if (feed.status !== 200 || !data || data.status === -1) {
+    if (feed.status !== 200) {
         setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');
         return;
     }
-    data = data.data;
-    if (data.length === 0) {
-        setArtTip('<i class="fa fa-inbox"></i><p class="article-empty-tip">暂时没有文章</p>');
+    try {
+        if(feedType === "json"){
+            var data = JSON.parse(feed.responseText);
+            if (!data || data.status === -1) {
+                throw new Error();
+            }
+            data = data.data;
+        } else if(feedType === "xml"){
+            var xml = feed.responseXML;
+            if(!xml){
+                throw new Error();
+            }
+            window.xml = xml;
+            xml = xml.querySelectorAll("channel item");
+            var data = [];
+            xml.forEach(function (v){
+                data.push({
+                    "link": v.querySelector("link").innerHTML,
+                    "timestamp": dateParser(v.querySelector("pubDate").innerHTML),
+                    "title": v.querySelector("title").innerHTML
+                });
+            });
+        }
+    } catch (e) {
+        setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');
         return;
     }
-    for (var i = 0; i < data.length; i++) {
-        qSlt(".article-content").innerHTML += '<p class="article-item"><a target="_blank" class="article-title" href="' + data[i].link + '">' + data[i].title + '</a><span class="article-time">' + data[i].timestamp + '</span></p>';
-    }
+    data.length === 0 ? setArtTip('<i class="fa fa-inbox"></i><p class="article-empty-tip">暂时没有文章</p>') : articleOutput(data);
+
 });
 feed.addEventListener("error", function () {
     qSlt(".article-container").classList.add("loaded");
