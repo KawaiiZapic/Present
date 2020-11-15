@@ -32,11 +32,23 @@ Present is present by Zapic.
 
 
 ### 博客文章输出
+
+#### JSON模式
+此模式无需设置跨域,仅需提供PHP支持,由后端解析XML文档,传输数据量较少,推荐使用.  
 **注意:** 使用本功能,你的服务器必须支持`PHP 5.6+`,并启用`XML`拓展.
 
-1. 在`feed.php`内找到`$feed_url`;
-2. 将`$feed_url`修改为你的博客RSS订阅地址.
-3. 如果不会可以简单的学一下`PHP`语法.
+1. 在`index.html`内找到`var feedType=...`,修改为`json`.
+2. 在`feed.php`内找到`$feed_url`;
+3. 将`$feed_url`修改为你的博客RSS订阅地址.
+4. 如果不会可以简单的学一下`PHP`语法.
+
+#### XML模式
+此模式**需设置** 跨域,无需提供PHP支持,由前端解析XML文档,传输数据量较多,在无PHP环境情况下推荐使用.  
+此处不提供跨域教程,请自行搜索.
+
+1. 在`index.html`内找到`var feedType=...`,修改为`xml`,
+2. 在`index.html`内找到`var feedPath=...`,修改为你的博客RSS地址,如`https://blog.me/feed`;
+3. 如果不会可以简单的学一下`JavaScript`语法.
 
 ### 链接图标
 链接图标列表: [Font Awesome](https://fontawesome.dashgame.com/)  
