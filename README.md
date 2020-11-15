@@ -38,7 +38,7 @@ Present is present by Zapic.
 2. 将`$feed_url`修改为你的博客RSS订阅地址.
 3. 如果不会可以简单的学一下`PHP`语法.
 
-### 链接与链接图标
+### 链接图标
 链接图标列表: [Font Awesome](https://fontawesome.dashgame.com/)  
 1. 在列表里找到心仪的图标
 2. 点击`复制`按钮
