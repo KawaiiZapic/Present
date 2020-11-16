@@ -32,6 +32,10 @@ body.locked, .content-container, .self-wrapper, .article-title {
     -ms-user-select: none;
 }
 
+.finished .loading-indicator,.finished .avatar-img {
+    border-radius: 64px;
+}
+
 .article-content {
     height: 0;
     opacity: 0;
