@@ -183,7 +183,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 }
 
 .finished .loading-wrapper {
-    transition: box-shandow .5s 1s;
+    transition: box-shadow .5s 1s;
     box-shadow: 4px 4px 5px 0 rgba(0, 0, 0, .5);
 }
 
@@ -415,6 +415,10 @@ body.locked, .content-container, .self-wrapper, .article-title {
         animation: .5s 1s content-in-hoz;
     }
 
+    .dokidoki-text {
+        max-width: 80vw;
+    }
+    
     .self-avatar.finished {
         width: 100vw;
         height: 40vh;
