@@ -246,6 +246,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 }
 
 .self-avatar.finished .avatar-img {
+    transition: .5s .5s;
     opacity: 1;
     transform: translateY(0);
 }

@@ -83,7 +83,6 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    transition: .5s .5s;
     object-fit: contain;
     object-position: center;
     transform: translateY(32px);
