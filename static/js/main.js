@@ -79,6 +79,21 @@ feed.addEventListener("load", function () {
                     "title": v.querySelector("title").innerHTML
                 });
             });
+        } else if(feedType === "atom"){
+            var xml = feed.responseXML;
+            if(!xml){
+                throw new Error();
+            }
+            xml = xml.querySelectorAll("feed entry");
+            var data = [];
+            xml.forEach(function (v,i){
+                if(i > 7){ return; }
+                data.push({
+                    "link": v.querySelector("link").getAttribute("href"),
+                    "timestamp": v.querySelector("published").innerHTML.slice(0,10),
+                    "title": v.querySelector("title").innerHTML
+                });
+            });
         }
     } catch (e) {
         setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');

@@ -42,13 +42,22 @@ Present is presented by Zapic:gift_heart:.
 3. 将`$feed_url`修改为你的博客RSS订阅地址.
 4. 如果不会可以简单的学一下`PHP`语法.
 
-#### XML模式
+#### XML模式(RSS订阅)
 此模式**需设置** 跨域,无需提供PHP支持,由前端解析XML文档,传输数据量较多,在无PHP环境情况下推荐使用.  
 此处不提供跨域教程,请自行搜索.
 
 1. 在`index.html`内找到`var feedType=...`,修改为`xml`,
-2. 在`index.html`内找到`var feedPath=...`,修改为你的博客RSS地址,如`https://blog.me/feed`;
+2. 在`index.html`内找到`var feedPath=...`,修改为你的博客RSS订阅地址,如`https://blog.me/feed`;
 3. 如果不会可以简单的学一下`JavaScript`语法.
+
+#### XML模式(ATOM订阅)
+此模式**需设置** 跨域,无需提供PHP支持,由前端解析XML文档,传输数据量较多,在无PHP环境情况下推荐使用.  
+此处不提供跨域教程,请自行搜索.
+
+1. 在`index.html`内找到`var feedType=...`,修改为`atom`,
+2. 在`index.html`内找到`var feedPath=...`,修改为你的博客ATOM订阅地址,如`https://blog.me/feed`;
+3. 如果不会可以简单的学一下`JavaScript`语法.
+
 
 ### 链接图标
 链接图标列表: [Font Awesome](https://fontawesome.dashgame.com/)  
