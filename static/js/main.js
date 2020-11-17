@@ -69,10 +69,10 @@ feed.addEventListener("load", function () {
             if(!xml){
                 throw new Error();
             }
-            window.xml = xml;
             xml = xml.querySelectorAll("channel item");
             var data = [];
-            xml.forEach(function (v){
+            xml.forEach(function (v,i){
+                if(i > 7){ return; }
                 data.push({
                     "link": v.querySelector("link").innerHTML,
                     "timestamp": dateParser(v.querySelector("pubDate").innerHTML),
