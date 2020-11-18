@@ -3,7 +3,7 @@
  * Present by Zapic @ 2020
  * https://github.com/KawaiiZapic/Present/
  *
- * Please DO NOT remove this copyright message, as the basic respect for origin author.
+ * Please DO NOT remove this copyright message, as the basic respect for original author.
  *
  */
 
@@ -69,16 +69,26 @@ feed.addEventListener("load", function () {
             if(!xml){
                 throw new Error();
             }
-            xml = xml.querySelectorAll("channel item");
             var data = [];
-            xml.forEach(function (v,i){
-                if(i > 7){ return; }
-                data.push({
-                    "link": v.querySelector("link").innerHTML,
-                    "timestamp": dateParser(v.querySelector("pubDate").innerHTML),
-                    "title": v.querySelector("title").innerHTML
+            if(xml.querySelector("rss") != null){
+                xml.querySelectorAll("channel item").forEach(function (v,i){
+                    if(i > 7){ return; }
+                    data.push({
+                        "link": v.querySelector("link").innerHTML,
+                        "timestamp": dateParser(v.querySelector("pubDate").innerHTML),
+                        "title": v.querySelector("title").innerHTML
+                    });
                 });
-            });
+            } else if(xml.querySelector("feed") != null) {
+                xml.querySelectorAll("feed entry").forEach(function (v,i){
+                    if(i > 7){ return; }
+                    data.push({
+                        "link": v.querySelector("link").href,
+                        "timestamp": dateParser(v.querySelector("published").innerHTML),
+                        "title": v.querySelector("title").innerHTML
+                    });
+                });
+            }
         }
     } catch (e) {
         setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');
