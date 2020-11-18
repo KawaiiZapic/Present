@@ -88,6 +88,8 @@ feed.addEventListener("load", function () {
                         "title": v.querySelector("title").innerHTML
                     });
                 });
+            } else {
+                throw new Error();
             }
         }
     } catch (e) {
