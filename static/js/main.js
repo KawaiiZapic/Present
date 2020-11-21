@@ -83,8 +83,8 @@ feed.addEventListener("load", function () {
                 xml.querySelectorAll("feed entry").forEach(function (v,i){
                     if(i > 7){ return; }
                     data.push({
-                        "link": v.querySelector("link").href,
-                        "timestamp": dateParser(v.querySelector("published").innerHTML),
+                        "link": v.querySelector("link").getAttribute("href"),
+                        "timestamp": v.querySelector("published").innerHTML.slice(0,10),
                         "title": v.querySelector("title").innerHTML
                     });
                 });
