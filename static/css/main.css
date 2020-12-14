@@ -246,9 +246,10 @@ body.locked, .content-container, .self-wrapper, .article-title {
 }
 
 .self-avatar.finished .avatar-img {
-    transition: .5s .5s;
     opacity: 1;
+    transition: .5s .5s;
     transform: translateY(0);
+    transition-property: all!important;
 }
 
 .self-avatar.finished .avatar-name {
@@ -264,6 +265,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 .self-avatar.finished .loading-pre {
     opacity: 0;
     transform: translateY(-1em);
+    transition-property: all!important;
 }
 
 .self-avatar.finished .loading-mask {

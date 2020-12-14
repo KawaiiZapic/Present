@@ -67,6 +67,7 @@
     opacity: 1;
     transition: .5s .5s;
     transform: translateY(0);
+    transition-property: none;
 }
 
 .loading-wrapper {
@@ -75,17 +76,6 @@
     overflow: hidden;
     position: relative;
     border-radius: 64px;
-}
-
-.loading-wrapper .avatar-img {
-    opacity: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    object-fit: contain;
-    object-position: center;
-    transform: translateY(32px);
 }
 
 .loading-text {
@@ -107,6 +97,18 @@
     height: 100vh;
     position: absolute;
     min-height: 270px;
+}
+
+.self-avatar .avatar-img {
+    opacity: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: contain;
+    object-position: center;
+    transition-property: none;
+    transform: translateY(32px);
 }
 
 @keyframes spinner-path {
