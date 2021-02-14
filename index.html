@@ -102,26 +102,30 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ClassicOldSong/typinyin.js@0.1.3/typinyin.css">
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans" media="none" onload="this.media='all'">
-<script>
-    var feedType = "json";
-    var feedPath = "feed.php";
-    var bgArr = [{
-        "url": "static/img/background-1.jpg",
-        "thumb": "static/img/background-1-thumb.jpg"
-    },{
-        "url": "static/img/background-2.jpg",
-        "thumb": "static/img/background-2-thumb.jpg"
-    }];
-    var senArr = [
-        {
-            ch: ["This is an example."],
-            py: ["This is an example."],
-        }, {
-            ch: ["这是","一个","示例","."],
-            py: ["zhe'shi","yi'ge","shi'li","."],
-        }
-    ];
-</script>
 <script src="https://cdn.jsdelivr.net/gh/ClassicOldSong/typinyin.js@master/typinyin.min.js"></script>
 <script src="static/js/main.js"></script>
+<script>
+    (function () {
+        var feedType = "json";
+        var feedPath = "feed.php";
+        var bgArr = [{
+            "url": "static/img/background-1.jpg",
+            "thumb": "static/img/background-1-thumb.jpg"
+        },{
+            "url": "static/img/background-2.jpg",
+            "thumb": "static/img/background-2-thumb.jpg"
+        }];
+        var senArr = [
+            {
+                ch: ["This is an example."],
+                py: ["This is an example."],
+            }, {
+                ch: ["这是","一个","示例","."],
+                py: ["zhe'shi","yi'ge","shi'li","."],
+            }
+        ];
+
+        Init(feedType, feedPath, bgArr, senArr);
+    })();
+</script>
 </html>
