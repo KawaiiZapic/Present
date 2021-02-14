@@ -149,13 +149,74 @@ function Init(feedType, feedPath, bgArr, senArr) {
             qSltAll(".switcher-btn").forEach(function (v) {
                 var id = v.id.substr(-1);
                 v.addEventListener("click", function () {
-                    qSlt(".self-wrapper").style.transform = "translateX(-" + 33.3 * (parseInt(id) - 1) + "%)";
-                    qSlt(".btn-select-indicator").style.left = "" + 33.3 * (parseInt(id) - 1) + "%";
-                    qSlt(".selected").classList.remove("selected");
-                    v.classList.add("selected");
+                    qSlt(".content-container").setAttribute("data-selection",id);
                 });
             });
         }, {once: true});
+        qSlt(".content-container").setAttribute("data-selection",1);
+    });
+    var selfWrapper = qSlt(".self-wrapper");
+    var contentCon = qSlt(".content-container");
+    var selInd = qSlt(".btn-select-indicator");
+    function handleTouchMove(eMove) {
+        var rMove = eMove - ((parseInt(contentCon.getAttribute("data-selection")) - 1) / 3 * selfWrapper.offsetWidth);
+        if(rMove > 0) {
+            rMove = Math.atan(rMove / 200) * 50;
+        } else if(rMove < selfWrapper.offsetWidth * -0.6666) {
+            rMove = selfWrapper.offsetWidth * -0.6666 + Math.atan((rMove - selfWrapper.offsetWidth * -0.6666) / 200) * 50;
+        }
+        selfWrapper.style.transform = "translateX(" + (rMove).toString() + "px)";
+        selInd.style.transform = "translateX(" + (-rMove/3).toString() + "px)"
+    }
+    var tid = -1;
+    var tMovement = {
+        x: [0,0,0,0,0],
+        time: [0,0,0,0,0],
+        acc: 0
+    };
+    var eMove = 0;
+    qSlt(".self-wrapper").addEventListener("touchstart",function (e){
+        tid = e.changedTouches[0].identifier;
+        eMove = e.changedTouches[0].pageX;
+        selfWrapper.style.transition = "none";
+        selInd.style.transition = "none";
+    });
+    qSlt(".self-wrapper").addEventListener("touchmove",function (e){
+        if(e.changedTouches[0].identifier !== tid) {
+            return;
+        }
+        var evt = e.changedTouches[0];
+        tMovement.x.unshift(evt.pageX);
+        tMovement.time.unshift(e.timeStamp);
+        tMovement.x.pop();
+        tMovement.time.pop();
+        var x = (tMovement.x[0] + tMovement.x[1] + tMovement.x[2] + tMovement.x[3] + tMovement.x[4]) / 5 - evt.pageX;
+        var time = e.timeStamp - (tMovement.time[0] + tMovement.time[1] + tMovement.time[2] + tMovement.time[3] + tMovement.time[4]) / 5 ;
+        tMovement.acc = x / time;
+        handleTouchMove(evt.pageX - eMove);
+    });
+    qSlt(".self-wrapper").addEventListener("touchcancel",function (e){
+        tid = -1;
+        selfWrapper.style.transition = "";
+        selfWrapper.style.transform = "";
+        selInd.style.transform = "";
+        selInd.style.transition = "";
+    });
+    qSlt(".self-wrapper").addEventListener("touchend",function (e){
+        tid = -1;
+        var evt = e.changedTouches[0];
+        if(Math.abs(tMovement.acc) > 0.5 || Math.abs(eMove - evt.pageX)  > selfWrapper.offsetWidth * 0.2) {
+            var sel = parseInt(contentCon.getAttribute("data-selection"))
+            if(tMovement.acc > 0 && sel < 3) {
+                contentCon.setAttribute("data-selection", sel + 1);
+            } else if(tMovement.acc < 0 &&sel > 1) {
+                contentCon.setAttribute("data-selection", sel - 1);
+            }
+        }
+        selfWrapper.style.transition = "";
+        selfWrapper.style.transform = "";
+        selInd.style.transform = "";
+        selInd.style.transition = "";
     });
 }
-console.log("\n %c Present %c By Zapic \n\n", "color: #fff; background: #fb7299; padding:5px 0;", "background: #efefef; padding:5px 0;");
+console.log("\n %c Present %c By Zapic\n\n", "color: #fff; background: #fb7299; padding:5px 0;", "background: #efefef; padding:5px 0;");

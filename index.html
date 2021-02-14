@@ -79,7 +79,7 @@
             </div>
             </div>
             <div class="self-switcher">
-                <div class="switcher-btn text-center selected" id="switcher-btn-1">
+                <div class="switcher-btn text-center" id="switcher-btn-1">
                     <div class="btn-icon"><i class="fa fa-link"></i></div>
                     <div class="btn-text">链接</div>
                 </div>
@@ -128,4 +128,31 @@
         Init(feedType, feedPath, bgArr, senArr);
     })();
 </script>
+<style>
+    .content-container[data-selection="1"] .self-wrapper {
+        transform: translateX(0%);
+    }
+    .content-container[data-selection="1"] .btn-select-indicator {
+        transform: translateX(0%);
+    }
+    .content-container[data-selection="2"] .self-wrapper {
+        transform: translateX(-33.33%);
+    }
+    .content-container[data-selection="2"] .btn-select-indicator {
+        transform: translateX(100%);
+    }
+    .content-container[data-selection="3"] .self-wrapper {
+        transform: translateX(-66.66%);
+    }
+    .content-container[data-selection="3"] .btn-select-indicator {
+        transform: translateX(200%);
+    }
+    .content-container[data-selection="1"] #switcher-btn-1 .btn-icon .fa,.content-container[data-selection="2"] #switcher-btn-2 .btn-icon .fa,.content-container[data-selection="3"] #switcher-btn-3 .btn-icon .fa{
+        font-size: 2.5rem;
+        transform: translateY(.1em);
+    }
+    .content-container[data-selection="1"] #switcher-btn-1 .btn-text, .content-container[data-selection="2"] #switcher-btn-2 .btn-text, .content-container[data-selection="3"] #switcher-btn-3 .btn-text {
+        opacity: 0;
+    }
+</style>
 </html>
