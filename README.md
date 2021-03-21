@@ -8,7 +8,7 @@ Present is presented by Zapic:gift_heart:.
 ### Browser support:
 |  IE   | Chrome  | Firefox   | Other  |
 |  ----  | ----  |  ----  | ----  |
-| 11+(Particle Support)  | 49+ | 52+  | (?) |
+| 11+(Partial Support)  | 49+ | 52+  | (?) |
 
 ## Setting-up:
 
