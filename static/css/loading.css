@@ -95,6 +95,7 @@
 .self-avatar {
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
     position: absolute;
     min-height: 270px;
 }

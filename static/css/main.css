@@ -142,6 +142,39 @@ body.locked, .content-container, .self-wrapper, .article-title {
     box-shadow: 4px 4px 5px 0 rgba(0, 0, 0, .5);
 }
 
+.content-container[data-selection="1"] .self-wrapper {
+    transform: translateX(0%);
+}
+
+.content-container[data-selection="1"] .btn-select-indicator {
+    transform: translateX(0%);
+}
+
+.content-container[data-selection="2"] .self-wrapper {
+    transform: translateX(-33.33%);
+}
+
+.content-container[data-selection="2"] .btn-select-indicator {
+    transform: translateX(100%);
+}
+
+.content-container[data-selection="3"] .self-wrapper {
+    transform: translateX(-66.66%);
+}
+
+.content-container[data-selection="3"] .btn-select-indicator {
+    transform: translateX(200%);
+}
+
+.content-container[data-selection="1"] #switcher-btn-1 .btn-icon .fa, .content-container[data-selection="2"] #switcher-btn-2 .btn-icon .fa, .content-container[data-selection="3"] #switcher-btn-3 .btn-icon .fa {
+    font-size: 2.5rem;
+    transform: translateY(.1em);
+}
+
+.content-container[data-selection="1"] #switcher-btn-1 .btn-text, .content-container[data-selection="2"] #switcher-btn-2 .btn-text, .content-container[data-selection="3"] #switcher-btn-3 .btn-text {
+    opacity: 0;
+}
+
 .content-layer {
     width: 50vw;
     height: 100vh;
@@ -170,7 +203,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 .footer-container {
     left: 0;
     z-index: 0;
-    width: 100%;
+    width: 100vw;
     bottom: 8px;
     color: white;
     position: absolute;
@@ -298,6 +331,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 
 .self-wrapper {
     width: 300%;
+    touch-action: pan-x;
     position: absolute;
     white-space: nowrap;
     height: calc(100% - 64px);

@@ -23,7 +23,7 @@ function Init(feedType, feedPath, bgArr, senArr) {
         return document.querySelectorAll(selector);
     }
     function dateParser (str){
-        var reg = new RegExp("([0-9]{2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec){1} ([0-9]{4})");
+        var reg = new RegExp("([0-9]{2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) ([0-9]{4})");
         reg = reg.exec(str);
         if(!reg){return false;}
         var monthMap = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -59,9 +59,10 @@ function Init(feedType, feedPath, bgArr, senArr) {
             setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');
             return;
         }
+        var data = [];
         try {
             if(feedType === "json"){
-                var data = JSON.parse(feed.responseText);
+                data = JSON.parse(feed.responseText);
                 if (!data || data.status === -1) {
                     throw new Error();
                 }
@@ -71,7 +72,7 @@ function Init(feedType, feedPath, bgArr, senArr) {
                 if(!xml){
                     throw new Error();
                 }
-                var data = [];
+                data = [];
                 if(xml.querySelector("rss") != null){
                     xml.querySelectorAll("channel item").forEach(function (v,i){
                         if(i > 7){ return; }
@@ -195,7 +196,7 @@ function Init(feedType, feedPath, bgArr, senArr) {
         tMovement.acc = x / time;
         handleTouchMove(evt.pageX - eMove);
     });
-    qSlt(".self-wrapper").addEventListener("touchcancel",function (e){
+    qSlt(".self-wrapper").addEventListener("touchcancel",function (){
         tid = -1;
         selfWrapper.style.transition = "";
         selfWrapper.style.transform = "";
@@ -205,7 +206,7 @@ function Init(feedType, feedPath, bgArr, senArr) {
     qSlt(".self-wrapper").addEventListener("touchend",function (e){
         tid = -1;
         var evt = e.changedTouches[0];
-        if(Math.abs(tMovement.acc) > 0.5 || Math.abs(eMove - evt.pageX)  > selfWrapper.offsetWidth * 0.2) {
+        if(Math.abs(tMovement.acc) > 0.05 || Math.abs(eMove - evt.pageX)  > selfWrapper.offsetWidth * 0.1) {
             var sel = parseInt(contentCon.getAttribute("data-selection"))
             if(tMovement.acc > 0 && sel < 3) {
                 contentCon.setAttribute("data-selection", sel + 1);
@@ -219,4 +220,4 @@ function Init(feedType, feedPath, bgArr, senArr) {
         selInd.style.transition = "";
     });
 }
-console.log("\n %c Present %c By Zapic\n\n", "color: #fff; background: #fb7299; padding:5px 0;", "background: #efefef; padding:5px 0;");
+console.log("\n %c Present %c By Zapic \n\n", "color: #fff; background: #fb7299; padding:5px 0;", "background: #efefef; padding:5px 0;");
