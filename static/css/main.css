@@ -476,3 +476,48 @@ body.locked, .content-container, .self-wrapper, .article-title {
         align-items: start;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    @keyframes name-out {
+        0% {
+            transform: translateY(0);
+            opacity: 0;
+        }
+
+        33% {
+            transform: translateY(0);
+            opacity: 0;
+        }
+
+        66% {
+            opacity: 1;
+            color: #ddd;
+            transform: translateY(-1em);
+            text-shadow: none;
+        }
+
+        100% {
+            transform: translateY(-1.2em);
+            opacity: 1;
+            color: white;
+            text-shadow: 4px 4px 5px rgba(0, 0, 0, .5);
+        }
+
+    }
+
+    .content-container {
+        background-color: #333;
+    }
+
+    a[href].link-item, body {
+        color: #ddd;
+    }
+
+    .background-layer {
+        filter: brightness(0.75);
+    }
+
+    .background-layer.loading {
+        filter: brightness(0.75) blur(50px);
+    }
+}

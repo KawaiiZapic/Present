@@ -175,3 +175,15 @@
         flex-direction: column;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    body, .loading-mask {
+        background-color: #333;
+    }
+    .loading-text {
+        color: #ddd;
+    }
+    .loading-indicator .circle-line {
+        stroke: #fb7299;
+    }
+}
