@@ -513,6 +513,10 @@ body.locked, .content-container, .self-wrapper, .article-title {
         color: #ddd;
     }
 
+    .footer-container a {
+        color: #fb7299;
+    }
+
     .background-layer {
         filter: brightness(0.75);
     }
