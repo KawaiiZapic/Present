@@ -509,7 +509,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
         background-color: #333;
     }
 
-    a[href].link-item, body {
+    a[href], body {
         color: #ddd;
     }
 
