@@ -22,15 +22,15 @@ function Init(feedType, feedPath, bgArr, senArr) {
     function qSltAll(selector) {
         return document.querySelectorAll(selector);
     }
-    function dateParser (str){
+    function dateParser(str) {
         var reg = new RegExp("([0-9]{2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) ([0-9]{4})");
         reg = reg.exec(str);
-        if(!reg){return false;}
-        var monthMap = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        if (!reg) { return false; }
+        var monthMap = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var day = reg[1];
-        var month = monthMap.lastIndexOf(reg[2])+1;
+        var month = monthMap.lastIndexOf(reg[2]) + 1;
         var year = reg[3];
-        return year+"-"+month+"-"+day;
+        return year + "-" + month + "-" + day;
     }
     function setArtTip(content) {
         qSlt(".article-content").classList.add("empty");
@@ -45,9 +45,28 @@ function Init(feedType, feedPath, bgArr, senArr) {
             set[i] = p;
         }
     }
-    function articleOutput(data){
+    function getTitleWithoutCDATA(titleElement) {
+        // 尝试匹配 CDATA 标签
+        const cdataRegex = /<!\[CDATA\[(.*?)\]\]>/;
+        const cdataMatch = titleElement.match(cdataRegex);
+        if (cdataMatch && cdataMatch.length > 1) {
+            // 如果成功匹配到 CDATA 标签，返回 CDATA 内容，去掉 CDATA 标签部分
+            const cdataContent = cdataMatch[1];
+            return cdataContent;
+        } else {
+            // 否则，返回原始标题文本（不包含 CDATA 标签）
+            return titleElement;
+        }
+    }
+
+    function articleOutput(data) {
         for (var i = 0; i < data.length; i++) {
-            qSlt(".article-content").innerHTML += '<p class="article-item"><a target="_blank" class="article-title" href="' + data[i].link + '">' + data[i].title + '</a><span class="article-time">' + data[i].timestamp + '</span></p>';
+            var titleElement = data[i].title;
+            if (titleElement) { // 检查 titleElement 是否存在
+                var titleText = getTitleWithoutCDATA(titleElement);
+                console.log("titleText:", titleText); // 添加这行调试输出
+                qSlt(".article-content").innerHTML += '<p class="article-item"><a target="_blank" class="article-title" href="' + data[i].link + '">' + titleText + '</a><span class="article-time">' + data[i].timestamp + '</span></p>';
+            }
         }
     }
 
@@ -61,33 +80,33 @@ function Init(feedType, feedPath, bgArr, senArr) {
         }
         var data = [];
         try {
-            if(feedType === "json"){
+            if (feedType === "json") {
                 data = JSON.parse(feed.responseText);
                 if (!data || data.status === -1) {
                     throw new Error();
                 }
                 data = data.data;
-            } else if(feedType === "xml"){
+            } else if (feedType === "xml") {
                 var xml = feed.responseXML;
-                if(!xml){
+                if (!xml) {
                     throw new Error();
                 }
                 data = [];
-                if(xml.querySelector("rss") != null){
-                    xml.querySelectorAll("channel item").forEach(function (v,i){
-                        if(i > 7){ return; }
+                if (xml.querySelector("rss") != null) {
+                    xml.querySelectorAll("channel item").forEach(function (v, i) {
+                        if (i > 7) { return; }
                         data.push({
                             "link": v.querySelector("link").innerHTML,
                             "timestamp": dateParser(v.querySelector("pubDate").innerHTML),
                             "title": v.querySelector("title").innerHTML
                         });
                     });
-                } else if(xml.querySelector("feed") != null) {
-                    xml.querySelectorAll("feed entry").forEach(function (v,i){
-                        if(i > 7){ return; }
+                } else if (xml.querySelector("feed") != null) {
+                    xml.querySelectorAll("feed entry").forEach(function (v, i) {
+                        if (i > 7) { return; }
                         data.push({
                             "link": v.querySelector("link").getAttribute("href"),
-                            "timestamp": v.querySelector("published").innerHTML.slice(0,10),
+                            "timestamp": v.querySelector("published").innerHTML.slice(0, 10),
                             "title": v.querySelector("title").innerHTML
                         });
                     });
@@ -150,40 +169,40 @@ function Init(feedType, feedPath, bgArr, senArr) {
             qSltAll(".switcher-btn").forEach(function (v) {
                 var id = v.id.substr(-1);
                 v.addEventListener("click", function () {
-                    qSlt(".content-container").setAttribute("data-selection",id);
+                    qSlt(".content-container").setAttribute("data-selection", id);
                 });
             });
-        }, {once: true});
-        qSlt(".content-container").setAttribute("data-selection",1);
+        }, { once: true });
+        qSlt(".content-container").setAttribute("data-selection", 1);
     });
     var selfWrapper = qSlt(".self-wrapper");
     var contentCon = qSlt(".content-container");
     var selInd = qSlt(".btn-select-indicator");
     function handleTouchMove(eMove) {
         var rMove = eMove - ((parseInt(contentCon.getAttribute("data-selection")) - 1) / 3 * selfWrapper.offsetWidth);
-        if(rMove > 0) {
+        if (rMove > 0) {
             rMove = Math.atan(rMove / 200) * 50;
-        } else if(rMove < selfWrapper.offsetWidth * -0.6666) {
+        } else if (rMove < selfWrapper.offsetWidth * -0.6666) {
             rMove = selfWrapper.offsetWidth * -0.6666 + Math.atan((rMove - selfWrapper.offsetWidth * -0.6666) / 200) * 50;
         }
         selfWrapper.style.transform = "translateX(" + (rMove).toString() + "px)";
-        selInd.style.transform = "translateX(" + (-rMove/3).toString() + "px)"
+        selInd.style.transform = "translateX(" + (-rMove / 3).toString() + "px)"
     }
     var tid = -1;
     var tMovement = {
-        x: [0,0,0,0,0],
-        time: [0,0,0,0,0],
+        x: [0, 0, 0, 0, 0],
+        time: [0, 0, 0, 0, 0],
         acc: 0
     };
     var eMove = 0;
-    qSlt(".self-wrapper").addEventListener("touchstart",function (e){
+    qSlt(".self-wrapper").addEventListener("touchstart", function (e) {
         tid = e.changedTouches[0].identifier;
         eMove = e.changedTouches[0].pageX;
         selfWrapper.style.transition = "none";
         selInd.style.transition = "none";
     });
-    qSlt(".self-wrapper").addEventListener("touchmove",function (e){
-        if(e.changedTouches[0].identifier !== tid) {
+    qSlt(".self-wrapper").addEventListener("touchmove", function (e) {
+        if (e.changedTouches[0].identifier !== tid) {
             return;
         }
         var evt = e.changedTouches[0];
@@ -192,25 +211,25 @@ function Init(feedType, feedPath, bgArr, senArr) {
         tMovement.x.pop();
         tMovement.time.pop();
         var x = (tMovement.x[0] + tMovement.x[1] + tMovement.x[2] + tMovement.x[3] + tMovement.x[4]) / 5 - evt.pageX;
-        var time = e.timeStamp - (tMovement.time[0] + tMovement.time[1] + tMovement.time[2] + tMovement.time[3] + tMovement.time[4]) / 5 ;
+        var time = e.timeStamp - (tMovement.time[0] + tMovement.time[1] + tMovement.time[2] + tMovement.time[3] + tMovement.time[4]) / 5;
         tMovement.acc = x / time;
         handleTouchMove(evt.pageX - eMove);
     });
-    qSlt(".self-wrapper").addEventListener("touchcancel",function (){
+    qSlt(".self-wrapper").addEventListener("touchcancel", function () {
         tid = -1;
         selfWrapper.style.transition = "";
         selfWrapper.style.transform = "";
         selInd.style.transform = "";
         selInd.style.transition = "";
     });
-    qSlt(".self-wrapper").addEventListener("touchend",function (e){
+    qSlt(".self-wrapper").addEventListener("touchend", function (e) {
         tid = -1;
         var evt = e.changedTouches[0];
-        if(Math.abs(tMovement.acc) > 0.05 || Math.abs(eMove - evt.pageX)  > selfWrapper.offsetWidth * 0.1) {
+        if (Math.abs(tMovement.acc) > 0.05 || Math.abs(eMove - evt.pageX) > selfWrapper.offsetWidth * 0.1) {
             var sel = parseInt(contentCon.getAttribute("data-selection"))
-            if(tMovement.acc > 0 && sel < 3) {
+            if (tMovement.acc > 0 && sel < 3) {
                 contentCon.setAttribute("data-selection", sel + 1);
-            } else if(tMovement.acc < 0 &&sel > 1) {
+            } else if (tMovement.acc < 0 && sel > 1) {
                 contentCon.setAttribute("data-selection", sel - 1);
             }
         }
